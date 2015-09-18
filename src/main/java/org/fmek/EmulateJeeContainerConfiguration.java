@@ -2,6 +2,8 @@ package org.fmek;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
+import javax.jms.ConnectionFactory;
 import javax.jms.MessageListener;
 import javax.sql.DataSource;
 import javax.transaction.TransactionManager;
@@ -24,10 +27,16 @@ import javax.transaction.TransactionManager;
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
-public class EmulateJ2eeContainerConfiguration {
+public class EmulateJeeContainerConfiguration {
 
   @Bean
-  public DataSource dataSource()throws Exception{
+  public Log log() {
+    return LogFactory.getLog("FMEK");
+  }
+
+  @Bean
+  public DataSource dataSource(Log log)throws Exception{
+    log.info("serve DataSource");
     DataSource ds = new EmbeddedDatabaseBuilder()
         .setType(EmbeddedDatabaseType.H2)
         .build();
@@ -36,16 +45,17 @@ public class EmulateJ2eeContainerConfiguration {
   }
 
   @Bean
-  public JpaVendorAdapter jpaVendorAdapter() {
+  public JpaVendorAdapter jpaVendorAdapter(Log log) {
+    log.info("serve JpaVendorAdapter");
     HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-    hibernateJpaVendorAdapter.setShowSql(true);
     hibernateJpaVendorAdapter.setGenerateDdl(true);
     hibernateJpaVendorAdapter.setDatabase(Database.H2);
     return hibernateJpaVendorAdapter;
   }
 
   @Bean
-  public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter, Log log) {
+    log.info("serve LocalContainerEntityManagerFactoryBean");
     LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
     lef.setDataSource(dataSource);
     lef.setJpaVendorAdapter(jpaVendorAdapter);
@@ -54,24 +64,28 @@ public class EmulateJ2eeContainerConfiguration {
   }
 
   @Bean
-  public TransactionManager transactionManager() {
+  public TransactionManager transactionManager(Log log) {
+    log.info("serve TransactionManager");
     return new UserTransactionManager();
   }
 
   @Bean
-  public PlatformTransactionManager platformTransactionManager(TransactionManager transactionManager){
+  public PlatformTransactionManager platformTransactionManager(TransactionManager transactionManager, Log log){
+    log.info("serve PlatformTransactionManager");
     return new JtaTransactionManager(transactionManager);
   }
 
   @Bean
-  public ActiveMQConnectionFactory activeMQConnectionFactory() {
-    return new ActiveMQConnectionFactory("vm://localhost"); //?broker.persistent=false");
+  public ConnectionFactory connectionFactory(Log log) {
+    log.info("serve ConnectionFactory");
+    return new ActiveMQConnectionFactory("vm://localhost");
   }
 
   @Bean
-  public DefaultMessageListenerContainer defaultMessageListenerContainer(MessageListener messageListener) {
+  public DefaultMessageListenerContainer defaultMessageListenerContainer(MessageListener messageListener, ConnectionFactory connectionFactory, Log log) {
+    log.info("serve DefaultMessageListenerContainer");
     DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
-    container.setConnectionFactory(activeMQConnectionFactory());
+    container.setConnectionFactory(connectionFactory);
     container.setDestinationName("test");
     container.setMessageListener(messageListener);
     return container;

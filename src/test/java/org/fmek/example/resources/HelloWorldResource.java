@@ -21,8 +21,8 @@ public class HelloWorldResource {
 
   private static final String template = "Hello, %s!";
 
-  @Inject
-  private CountService countService;
+//  @Inject
+//  private CountService countService;
 
   @Inject
   private GreetingCrudService greetingCrudService;
@@ -34,13 +34,13 @@ public class HelloWorldResource {
   @Transactional
   @RequestMapping(method=RequestMethod.GET)
   public @ResponseBody Greeting sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) throws JMSException {
-    Greeting greeting = new Greeting(countService.incrementAndGet(), String.format(template, name));
+    Greeting greeting = new Greeting(String.format(template, name));
     greetingCrudService.store(greeting);
     greetingPostingService.sendGreeting(greeting);
     return greeting;
   }
 
-  @RequestMapping(name = "/greetings", method=RequestMethod.GET)
+  @RequestMapping(path = "/greetings", method=RequestMethod.GET)
   public @ResponseBody List<Greeting> allGreetings() {
     return greetingCrudService.getAllGreetings();
   }

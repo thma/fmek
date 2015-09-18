@@ -1,6 +1,6 @@
 package org.fmek.test;
 
-import org.fmek.EmulateJ2eeContainerConfiguration;
+import org.fmek.EmulateJeeContainerConfiguration;
 import org.fmek.example.domain.Greeting;
 import org.fmek.example.services.CountService;
 import org.fmek.example.services.GreetingCrudService;
@@ -12,13 +12,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import javax.jms.JMSException;
+import javax.transaction.Transactional;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by thma on 11.09.2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {EmulateJ2eeContainerConfiguration.class})
+@ContextConfiguration(classes = {EmulateJeeContainerConfiguration.class})
 public class GreetingTests {
 
   @Inject
@@ -33,16 +36,17 @@ public class GreetingTests {
   private static final String template = "Hello, %s!";
 
   @Test
+  @Transactional
   public void testGreetings() throws JMSException {
     createAndSaveAGreeting();
     createAndSaveAGreeting();
 
     Greeting g = greetingCrudService.getGreeting(1);
-//    assertNotNull(g);
-//    assertEquals(1, g.getId());
+    assertNotNull(g);
+    assertEquals(1, g.getId());
 
     List<Greeting> allGreetings =  greetingCrudService.getAllGreetings();
-//    assertEquals(2, allGreetings.size());
+    assertEquals(2, allGreetings.size());
   }
 
   private void createAndSaveAGreeting() throws JMSException {

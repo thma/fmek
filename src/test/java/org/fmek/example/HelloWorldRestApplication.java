@@ -1,6 +1,6 @@
 package org.fmek.example;
 
-import org.fmek.EmulateJ2eeContainerConfiguration;
+import org.fmek.EmulateJeeContainerConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,8 +16,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HelloWorldRestApplication {
 
   public static void main(String[] args) {
-    Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJ2eeContainerConfiguration.class};
-    SpringApplication.run(contextClasses, args);
+    //Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class};
+    SpringApplication.run(EmulateJeeContainerConfiguration.class, args);
   }
 
 }

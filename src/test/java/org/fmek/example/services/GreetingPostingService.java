@@ -1,6 +1,5 @@
 package org.fmek.example.services;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.fmek.example.domain.Greeting;
 
 import javax.inject.Inject;
@@ -15,25 +14,21 @@ import javax.transaction.Transactional;
 @Transactional
 public class GreetingPostingService {
 
-  public GreetingPostingService() {
-
-  }
+  @Inject
+  GreetingCodec codec;
 
   @Inject
-  ActiveMQConnectionFactory activeMQConnectionFactory;
+  ConnectionFactory connectionFactory;
 
   public void sendGreeting(Greeting greeting) throws JMSException {
-    Connection con = activeMQConnectionFactory.createConnection();
+    Connection con = connectionFactory.createConnection();
     Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
     Destination destination = session.createQueue("test");
     MessageProducer msgProducer = session.createProducer(null);
-    Message msg = session.createTextMessage(greeting.getContent());
+    Message msg = session.createTextMessage(codec.greetingToString(greeting));
 
     msgProducer.send(destination, msg);
-
-
-
   }
 
 }

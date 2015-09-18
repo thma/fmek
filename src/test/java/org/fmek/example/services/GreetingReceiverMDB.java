@@ -1,10 +1,11 @@
 package org.fmek.example.services;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.fmek.example.domain.Greeting;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -23,14 +24,19 @@ import javax.jms.TextMessage;
     })
 public class GreetingReceiverMDB implements MessageListener {
 
-  Log log = LogFactory.getLog(getClass());
+  @Inject
+  Log log;
+
+  @Inject
+  GreetingCodec deserializer;
 
   @Override
   public void onMessage(Message message) {
 
     TextMessage textMessage = (TextMessage) message;
     try {
-      log.info("onMessage(" + textMessage.getText() + ")");
+      Greeting greeting = deserializer.stringToGreeting(textMessage.getText());
+      log.info("onMessage(" + greeting + ")");
     } catch (JMSException e) {
       log.error(e);
     }
