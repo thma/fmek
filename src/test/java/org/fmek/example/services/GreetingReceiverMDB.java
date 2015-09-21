@@ -1,6 +1,7 @@
 package org.fmek.example.services;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fmek.example.domain.Greeting;
 
 import javax.ejb.ActivationConfigProperty;
@@ -24,8 +25,7 @@ import javax.jms.TextMessage;
     })
 public class GreetingReceiverMDB implements MessageListener {
 
-  @Inject
-  Log log;
+  Log log = LogFactory.getLog(getClass());;
 
   @Inject
   GreetingCodec deserializer;

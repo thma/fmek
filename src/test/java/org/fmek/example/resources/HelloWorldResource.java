@@ -21,9 +21,6 @@ public class HelloWorldResource {
 
   private static final String template = "Hello, %s!";
 
-//  @Inject
-//  private CountService countService;
-
   @Inject
   private GreetingCrudService greetingCrudService;
 

@@ -16,8 +16,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HelloWorldRestApplication {
 
   public static void main(String[] args) {
-    //Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class};
-    SpringApplication.run(EmulateJeeContainerConfiguration.class, args);
+    Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class};
+    SpringApplication.run(contextClasses, args);
   }
 
 }

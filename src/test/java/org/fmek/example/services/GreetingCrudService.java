@@ -1,6 +1,7 @@
 package org.fmek.example.services;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fmek.example.domain.Greeting;
 
 import javax.inject.Inject;
@@ -17,8 +18,7 @@ import java.util.List;
 @Transactional
 public class GreetingCrudService {
 
-  @Inject
-  Log log;
+  Log log = LogFactory.getLog(getClass());
 
   @Inject
   private EntityManager entityManager;

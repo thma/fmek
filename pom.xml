@@ -4,17 +4,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.fmek</groupId>
-    <artifactId>no-heckmeck</artifactId>
-    <version>LATEST</version>
+    <artifactId>FMEK</artifactId>
+    <version>1.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>LATEST</version>
+        <!--<version>1.2.6.RELEASE</version>-->
     </parent>
 
     <dependencies>
-        <!-- SPRING -->
+        <!-- SPRING + SPRING BOOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -25,88 +26,42 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>LATEST</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
-            <version>LATEST</version>
         </dependency>
-        <!-- END SPRING -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- END SPRING + SPRING BOOT -->
 
 
+        <!-- JEE APIs-->
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>LATEST</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.enterprise</groupId>-->
+            <!--<artifactId>cdi-api</artifactId>-->
+            <!--<version>LATEST</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>javax.ejb</groupId>
             <artifactId>ejb-api</artifactId>
             <version>LATEST</version>
         </dependency>
-
-        <!-- JTA 1.2 -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <!-- End JTA 1.2-->
-
-
-        <!-- Atomikos JTA-->
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>atomikos-util</artifactId>
-            <version>3.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-api</artifactId>
-            <version>3.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-jta</artifactId>
-            <version>3.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-jdbc</artifactId>
-            <version>3.9.3</version>
-        </dependency>
-        <!-- End Atomikos JTA-->
-
-
-        <!-- Hibernate-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <!-- End Hibernate-->
+        <!-- END JEE APIs-->
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -114,22 +69,17 @@
             <version>LATEST</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.hsqldb</groupId>-->
-            <!--<artifactId>hsqldb</artifactId>-->
-            <!--<version>LATEST</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-core</artifactId>
-            <version>5.7.0</version>
+            <version>${amq.version}</version>
         </dependency>
 
     </dependencies>
 
     <properties>
         <java.version>1.8</java.version>
+        <amq.version>5.7.0</amq.version>
     </properties>
 
     <build>
