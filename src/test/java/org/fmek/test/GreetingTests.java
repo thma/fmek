@@ -46,6 +46,7 @@ public class GreetingTests {
     Greeting g = greetingCrudService.getGreeting(1);
     assertNotNull(g);
     assertEquals(1, g.getId());
+    assertEquals("Hello, user-1!", g.getContent());
 
     List<Greeting> allGreetings =  greetingCrudService.getAllGreetings();
     assertEquals(3, allGreetings.size());
