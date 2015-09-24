@@ -28,14 +28,14 @@ public class GreetingReceiverMDB implements MessageListener {
   Log log = LogFactory.getLog(getClass());;
 
   @Inject
-  GreetingCodec deserializer;
+  GreetingCodec codec;
 
   @Override
   public void onMessage(Message message) {
 
     TextMessage textMessage = (TextMessage) message;
     try {
-      Greeting greeting = deserializer.stringToGreeting(textMessage.getText());
+      Greeting greeting = codec.stringToGreeting(textMessage.getText());
       log.info("onMessage(" + greeting + ")");
     } catch (JMSException e) {
       log.error(e);
