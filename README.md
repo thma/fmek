@@ -85,7 +85,38 @@ Emulating a JEE 7 container with SpringBoot.
         </dependency>
 
 -  **developing Spring application with minimal code dependencies on Spring**  
-    
+    If you don't intend to deploy your application to a JEE container it still makes sense to minimize explicit Spring dependencies in your code. As an example have a look at the following service class which exclusively uses JEE standard APIs can be completely managed by Spring:
+
+        package org.fmek.example.services;
+
+        import org.fmek.example.domain.Greeting;
+        import javax.inject.Inject;
+        import javax.inject.Named;
+        import javax.persistence.EntityManager;
+        import javax.persistence.TypedQuery;
+        import javax.transaction.Transactional;
+        import java.util.List;
+        
+        @Named
+        @Transactional
+        public class GreetingCrudService {
+        
+          @Inject
+          private EntityManager entityManager;
+        
+          public void store(Greeting g) {
+            entityManager.merge(g);
+          }
+        
+          public List<Greeting> getAllGreetings() {
+            TypedQuery<Greeting> q = entityManager.createQuery("SELECT g FROM Greeting g", Greeting.class);
+            return q.getResultList();
+          }
+        
+          public Greeting getGreeting(long id) {
+            return entityManager.find(Greeting.class, id);
+          }
+        }
 
 ## Supported Features:
 
