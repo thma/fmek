@@ -13,10 +13,11 @@ Emulating a JEE 7 container with SpringBoot.
     
     The classical fullblown approach is to use tools like Arquillian which provide the complete JEE infrastructure to your junit tests. The downside with Arquillian is that the assembly of the container can be quite complex and tends to slow down the execution of the junit tests.  
     
-    The **FMEK** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner:
+    The **FMEK** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner which sets up the Spring container serving all required components:
 
         @RunWith(SpringJUnit4ClassRunner.class)
-        @ContextConfiguration(classes = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class})
+        @ContextConfiguration(classes = {HelloWorldRestApplication.class, 
+                                         EmulateJeeContainerConfiguration.class})
         public class GreetingTests {
         
           @Inject
@@ -53,9 +54,36 @@ Emulating a JEE 7 container with SpringBoot.
             postingService.sendGreeting(greeting);
           }
         
-        }   
-
+        }  
+    
 -  **providing a lightweight JEE 7 runtime container based on SpringBoot**  
+    Of course a Spring container is not only useful in a testing environment but can also be used as a full-fledged deployment and runtime environment for production.
+
+    All you need is a main class that is annotated as <code>@SpringBootApplication</code> that starts up the Spring container by calling <code>SpringApplication.run</code>:
+
+        @SpringBootApplication
+        public class HelloWorldRestApplication extends ResourceConfig {
+        
+            public HelloWorldRestApplication() {
+              register(RequestContextFilter.class);
+              register(HelloWorldResource.class);
+            }
+        
+          public static void main(String[] args) {
+            Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class};
+            SpringApplication.run(contextClasses, args);
+          }
+        }
+    
+    By calling <code>mvn install</code> this main class and all its dependencies are assembled to an executable jar. Thus no application deployment is needed.   
+    
+    You can even add extended support for application monitoring and managing by adding a dependency to Spring ACtuator in your POM File:
+    
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
 -  **developing Spring application with minimal code dependencies on Spring**  
 
 ## Supported Features:
