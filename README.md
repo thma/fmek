@@ -13,7 +13,7 @@ Emulating a JEE 7 container with SpringBoot.
     
     The classical fullblown approach is to use tools like Arquillian which provide the complete JEE infrastructure to your junit tests. The downside with Arquillian is that the assembly of the container can be quite complex and tends to slow down the execution of the junit tests.  
     
-    The **FMEK** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner which sets up the Spring container serving all required components:
+    The **fmek** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner which sets up the Spring container serving all required components:
 
         @RunWith(SpringJUnit4ClassRunner.class)
         @ContextConfiguration(classes = {HelloWorldRestApplication.class, 
@@ -56,7 +56,7 @@ Emulating a JEE 7 container with SpringBoot.
         
         }  
     
--  **providing a lightweight JEE 7 runtime container based on SpringBoot**  
+-  **Providing a lightweight JEE 7 runtime container based on SpringBoot**  
     Of course a Spring container is not only useful in a testing environment but can also be used as a full-fledged deployment and runtime environment for production.
 
     All you need is a main class that is annotated as <code>@SpringBootApplication</code> that starts up the Spring container by calling <code>SpringApplication.run</code>:
@@ -84,7 +84,7 @@ Emulating a JEE 7 container with SpringBoot.
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
--  **developing Spring application with minimal code dependencies on Spring**  
+-  **Developing Spring application with minimal code dependencies on Spring**  
     If you don't intend to deploy your application to a JEE container it still makes sense to minimize explicit Spring dependencies in your code. As an example have a look at the following service class which exclusively uses JEE standard APIs can be completely managed by Spring:
 
         package org.fmek.example.services;
@@ -124,7 +124,12 @@ Emulating a JEE 7 container with SpringBoot.
 - JTA
 - JPA
 - JMS
+- Message Driven Beans
 - JAX-RS
 - Servlets
+
+## Not supported:
+
+- EJB Session Beans
 
 [aliens.wikia]: http://aliens.wikia.com/wiki/Fmek
