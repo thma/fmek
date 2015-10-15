@@ -7,10 +7,13 @@ Emulating a JEE 7 container with SpringBoot.
 
 ## Use cases
 -  **unit testing of JEE components**  
-    Unit testing JEE components can be quite a hazzle if you want to test across different software layers (without using mocks) or if you want to test container provided features like JTA transactions including two phase commit synchronizing different XA resources.
-    Typical solutions use specialized Junit Testrunners like CDI-Unit CdiRunner or the DeltaSpike CdiTestRunner which provide a Weld CDI container for unit tests. This is great for testing CDI dependency injection. But integrating JAX-RS or JTA with this approach is far from trivial.
-    The classical fullblown approach is to use tools like Arquillian which provide the complete JEE infrastructure to your junit tests. The downside with Arquillian is that the assembly of the container can be quite complex and tends to slow down the execution of the junit tests.
-    The **FMEK** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner.
+    Unit testing JEE components can be quite a hazzle if you want to test across different software layers (without using mocks) or if you want to test container provided features like JTA transactions including two phase commit synchronizing different XA resources.  
+
+    Typical solutions use specialized Junit Testrunners like CDI-Unit CdiRunner or the DeltaSpike CdiTestRunner which provide a Weld CDI container for unit tests. This is great for testing CDI dependency injection. But integrating JAX-RS or JTA with this approach is far from trivial.  
+    
+    The classical fullblown approach is to use tools like Arquillian which provide the complete JEE infrastructure to your junit tests. The downside with Arquillian is that the assembly of the container can be quite complex and tends to slow down the execution of the junit tests.  
+    
+    The **FMEK** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner:
 
         @RunWith(SpringJUnit4ClassRunner.class)
         @ContextConfiguration(classes = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class})
