@@ -132,4 +132,7 @@ Emulating a JEE 7 container with SpringBoot.
 
 - EJB Session Beans
 
+## Docs:
+http://thma.github.io/fmek/
+
 [aliens.wikia]: http://aliens.wikia.com/wiki/Fmek
