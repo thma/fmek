@@ -18,28 +18,29 @@ import javax.jms.TextMessage;
  */
 @Named
 @MessageDriven(
-    activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/test"),
-        @ActivationConfigProperty(propertyName = "useJndi", propertyValue = "false")
-    })
+        activationConfig = {
+                @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+                @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/test"),
+                @ActivationConfigProperty(propertyName = "useJndi", propertyValue = "false")
+        })
 public class GreetingReceiverMDB implements MessageListener {
 
-  Log log = LogFactory.getLog(getClass());;
+    Log log = LogFactory.getLog(getClass());
+    ;
 
-  @Inject
-  GreetingCodec codec;
+    @Inject
+    GreetingCodec codec;
 
-  @Override
-  public void onMessage(Message message) {
+    @Override
+    public void onMessage(Message message) {
 
-    TextMessage textMessage = (TextMessage) message;
-    try {
-      Greeting greeting = codec.stringToGreeting(textMessage.getText());
-      log.info("onMessage(" + greeting + ")");
-    } catch (JMSException e) {
-      log.error(e);
+        TextMessage textMessage = (TextMessage) message;
+        try {
+            Greeting greeting = codec.stringToGreeting(textMessage.getText());
+            log.info("onMessage(" + greeting + ")");
+        } catch (JMSException e) {
+            log.error(e);
+        }
+
     }
-
-  }
 }

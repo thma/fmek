@@ -1,8 +1,8 @@
 package org.fmek.example.services;
 
-import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fmek.example.domain.Greeting;
+import org.fmek.example.interceptors.Log;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,24 +16,25 @@ import java.util.List;
  */
 @Named
 @Transactional
+@Log
 public class GreetingCrudService {
 
-  Log log = LogFactory.getLog(getClass());
+    org.apache.commons.logging.Log log = LogFactory.getLog(getClass());
 
-  @Inject
-  private EntityManager entityManager;
+    @Inject
+    private EntityManager entityManager;
 
-  public void store(Greeting g) {
-    log.info("store(" + g + ")");
-    entityManager.merge(g);
-  }
+    public void store(Greeting g) {
+        log.info("store(" + g + ")");
+        entityManager.merge(g);
+    }
 
-  public List<Greeting> getAllGreetings() {
-    TypedQuery<Greeting> q = entityManager.createQuery("SELECT g FROM Greeting g", Greeting.class);
-    return q.getResultList();
-  }
+    public List<Greeting> getAllGreetings() {
+        TypedQuery<Greeting> q = entityManager.createQuery("SELECT g FROM Greeting g", Greeting.class);
+        return q.getResultList();
+    }
 
-  public Greeting getGreeting(long id) {
-    return entityManager.find(Greeting.class, id);
-  }
+    public Greeting getGreeting(long id) {
+        return entityManager.find(Greeting.class, id);
+    }
 }

@@ -11,17 +11,17 @@ import java.util.StringTokenizer;
 @Named
 public class GreetingCodec {
 
-  public Greeting stringToGreeting(String input) {
-    Greeting result = new Greeting();
-    StringTokenizer stringTokenizer = new StringTokenizer(input, ":");
-    Long id = new Long(stringTokenizer.nextToken());
-    String content = stringTokenizer.nextToken();
-    result.setId(id);
-    result.setContent(content);
-    return result;
-  }
+    public Greeting stringToGreeting(String input) {
+        Greeting result = new Greeting();
+        StringTokenizer stringTokenizer = new StringTokenizer(input, ":");
+        Long id = new Long(stringTokenizer.nextToken());
+        String content = stringTokenizer.nextToken();
+        result.setId(id);
+        result.setContent(content);
+        return result;
+    }
 
-  public String greetingToString(Greeting greeting) {
-    return greeting.toString();
-  }
+    public String greetingToString(Greeting greeting) {
+        return greeting.toString();
+    }
 }

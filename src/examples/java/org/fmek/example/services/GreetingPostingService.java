@@ -14,21 +14,21 @@ import javax.transaction.Transactional;
 @Transactional
 public class GreetingPostingService {
 
-  @Inject
-  GreetingCodec codec;
+    @Inject
+    GreetingCodec codec;
 
-  @Inject
-  ConnectionFactory connectionFactory;
+    @Inject
+    ConnectionFactory connectionFactory;
 
-  public void sendGreeting(Greeting greeting) throws JMSException {
-    Connection con = connectionFactory.createConnection();
-    Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
+    public void sendGreeting(Greeting greeting) throws JMSException {
+        Connection con = connectionFactory.createConnection();
+        Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-    Destination destination = session.createQueue("test");
-    MessageProducer msgProducer = session.createProducer(null);
-    Message msg = session.createTextMessage(codec.greetingToString(greeting));
+        Destination destination = session.createQueue("test");
+        MessageProducer msgProducer = session.createProducer(null);
+        Message msg = session.createTextMessage(codec.greetingToString(greeting));
 
-    msgProducer.send(destination, msg);
-  }
+        msgProducer.send(destination, msg);
+    }
 
 }

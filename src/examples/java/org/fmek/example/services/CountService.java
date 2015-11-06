@@ -9,10 +9,10 @@ import java.util.concurrent.atomic.AtomicLong;
 @Named
 public class CountService {
 
-  private final AtomicLong counter = new AtomicLong();
+    private final AtomicLong counter = new AtomicLong();
 
 
-  public long incrementAndGet() {
-    return counter.incrementAndGet();
-  }
+    public long incrementAndGet() {
+        return counter.incrementAndGet();
+    }
 }
