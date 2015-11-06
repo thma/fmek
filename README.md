@@ -5,6 +5,21 @@ Emulating a JEE 7 container with SpringBoot.
 > "The Fmeks are a diminutive sapient species native to the planet Fmoo, they are the sworn enemies of the Arquillians."  
 -- [aliens.wikia]
 
+## Supported Features:
+
+- JSR-330 'javax.inject.Inject' CDI Annotations
+- JSR-299/318 'javax.interceptor.Interceptor' CDI Annotations
+- JTA
+- JPA
+- JMS
+- Message Driven Beans
+- JAX-RS
+- Servlets
+
+## Not supported:
+
+- EJB Session Beans
+
 ## Use cases
 -  **unit testing of JEE components**  
     Unit testing JEE components can be quite a hazzle if you want to test across different software layers (without using mocks) or if you want to test container provided features like JTA transactions including two phase commit synchronizing different XA resources.  
@@ -90,6 +105,7 @@ Emulating a JEE 7 container with SpringBoot.
         package org.fmek.example.services;
 
         import org.fmek.example.domain.Greeting;
+        import org.fmek.example.interceptors.Log;
         import javax.inject.Inject;
         import javax.inject.Named;
         import javax.persistence.EntityManager;
@@ -99,6 +115,7 @@ Emulating a JEE 7 container with SpringBoot.
         
         @Named
         @Transactional
+        @Log
         public class GreetingCrudService {
         
           @Inject
@@ -118,19 +135,6 @@ Emulating a JEE 7 container with SpringBoot.
           }
         }
 
-## Supported Features:
-
-- CDI
-- JTA
-- JPA
-- JMS
-- Message Driven Beans
-- JAX-RS
-- Servlets
-
-## Not supported:
-
-- EJB Session Beans
 
 ## Docs:
 http://thma.github.io/fmek/
