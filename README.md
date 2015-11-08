@@ -3,12 +3,12 @@
 Emulating a JEE 7 container with SpringBoot.
 
 > "The Fmeks are a diminutive sapient species native to the planet Fmoo, they are the sworn enemies of the Arquillians."  
--- [aliens.wikia]
+-- [aliens.wikia] [aliens.wikia]: http://aliens.wikia.com/wiki/Fmek
 
 ## Supported Features:
 
 - JSR-330 'javax.inject.Inject' CDI Annotations
-- JSR-299/318 'javax.interceptor.Interceptor' CDI Annotations
+- JSR-299/318 'javax.interceptor.Interceptor' CDI Annotations (based on a patched version of springcdi https://github.com/nschlimm/spring-interceptor)
 - JTA
 - JPA
 - JMS
@@ -138,5 +138,3 @@ Emulating a JEE 7 container with SpringBoot.
 
 ## Docs:
 http://thma.github.io/fmek/
-
-[aliens.wikia]: http://aliens.wikia.com/wiki/Fmek
