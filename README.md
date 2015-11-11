@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/thma/fmek.svg)](https://travis-ci.org/thma/fmek)
 # fmek
 
 Emulating a JEE 7 container with SpringBoot.
