@@ -97,12 +97,12 @@ public class HelloWorldRestApplication extends ResourceConfig {
 
 By calling <code>mvn install</code> this main class and all its dependencies are assembled to an executable jar. Thus no application deployment is needed.   
     
-    You can even add extended support for application monitoring and managing by adding a dependency to Spring Boot Actuator in your POM File:
+You can even add extended support for application monitoring and managing by adding a dependency to Spring Boot Actuator in your POM File:
     
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
 
 -  **Developing Spring application with minimal code dependencies on Spring**  
     If you don't intend to deploy your application to a JEE container it still makes sense to minimize explicit Spring dependencies in your code. As an example have a look at the following service class which exclusively uses JEE standard APIs can be completely managed by Spring:
