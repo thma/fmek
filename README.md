@@ -31,6 +31,7 @@ Emulating a JEE 7 container with SpringBoot.
     
     The **fmek** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner which sets up the Spring container serving all required components:
 
+'''java
         @RunWith(SpringJUnit4ClassRunner.class)
         @ContextConfiguration(classes = {HelloWorldRestApplication.class, 
                                          EmulateJeeContainerConfiguration.class})
