@@ -72,12 +72,13 @@ Emulating a JEE 7 container with SpringBoot.
           }
         
         }  
+    ```
     
 -  **Providing a lightweight JEE 7 runtime container based on SpringBoot**  
     Of course a Spring container is not only useful in a testing environment but can also be used as a full-fledged deployment and runtime environment for production.
 
     All you need is a main class that is annotated as <code>@SpringBootApplication</code> that starts up the Spring container by calling <code>SpringApplication.run</code>:
-
+```java
         @SpringBootApplication
         public class HelloWorldRestApplication extends ResourceConfig {
         
@@ -91,7 +92,7 @@ Emulating a JEE 7 container with SpringBoot.
             SpringApplication.run(contextClasses, args);
           }
         }
-    
+```    
     By calling <code>mvn install</code> this main class and all its dependencies are assembled to an executable jar. Thus no application deployment is needed.   
     
     You can even add extended support for application monitoring and managing by adding a dependency to Spring Boot Actuator in your POM File:
@@ -103,7 +104,7 @@ Emulating a JEE 7 container with SpringBoot.
 
 -  **Developing Spring application with minimal code dependencies on Spring**  
     If you don't intend to deploy your application to a JEE container it still makes sense to minimize explicit Spring dependencies in your code. As an example have a look at the following service class which exclusively uses JEE standard APIs can be completely managed by Spring:
-
+```java
         package org.fmek.example.services;
 
         import org.fmek.example.domain.Greeting;
@@ -136,7 +137,7 @@ Emulating a JEE 7 container with SpringBoot.
             return entityManager.find(Greeting.class, id);
           }
         }
-
+```
 
 ## Docs:
 http://thma.github.io/fmek/
