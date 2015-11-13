@@ -92,8 +92,10 @@ public class HelloWorldRestApplication extends ResourceConfig {
     SpringApplication.run(contextClasses, args);
   }
 }
-```    
-    By calling <code>mvn install</code> this main class and all its dependencies are assembled to an executable jar. Thus no application deployment is needed.   
+
+```
+
+By calling <code>mvn install</code> this main class and all its dependencies are assembled to an executable jar. Thus no application deployment is needed.   
     
     You can even add extended support for application monitoring and managing by adding a dependency to Spring Boot Actuator in your POM File:
     
