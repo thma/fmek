@@ -32,66 +32,66 @@ Emulating a JEE 7 container with SpringBoot.
     The **fmek** approach is simple: just provide all required JEE dependencies of your application by a SpringBoot Maven POM. The Junit test will be executed by the SpringJUnit4ClassRunner which sets up the Spring container serving all required components:
 
 ```java
-        @RunWith(SpringJUnit4ClassRunner.class)
-        @ContextConfiguration(classes = {HelloWorldRestApplication.class, 
-                                         EmulateJeeContainerConfiguration.class})
-        public class GreetingTests {
-        
-          @Inject
-          private CountService countService;
-        
-          @Inject
-          private GreetingCrudService greetingCrudService;
-        
-          @Inject
-          private GreetingPostingService postingService;
-        
-          private static final String template = "Hello, %s!";
-        
-          @Test
-          @Transactional
-          public void testGreetings() throws JMSException {
-            createAndSaveAGreeting();
-            createAndSaveAGreeting();
-            createAndSaveAGreeting();
-        
-            Greeting g = greetingCrudService.getGreeting(1);
-            assertNotNull(g);
-            assertEquals(1, g.getId());
-            assertEquals("Hello, user-1!", g.getContent());
-        
-            List<Greeting> allGreetings =  greetingCrudService.getAllGreetings();
-            assertEquals(3, allGreetings.size());
-          }
-        
-          private void createAndSaveAGreeting() throws JMSException {
-            long id = countService.incrementAndGet();
-            Greeting greeting = new Greeting(id, String.format(template, "user-" + id));
-            greetingCrudService.store(greeting);
-            postingService.sendGreeting(greeting);
-          }
-        
-        }  
-    ```
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {HelloWorldRestApplication.class, 
+                                 EmulateJeeContainerConfiguration.class})
+public class GreetingTests {
+
+  @Inject
+  private CountService countService;
+
+  @Inject
+  private GreetingCrudService greetingCrudService;
+
+  @Inject
+  private GreetingPostingService postingService;
+
+  private static final String template = "Hello, %s!";
+
+  @Test
+  @Transactional
+  public void testGreetings() throws JMSException {
+    createAndSaveAGreeting();
+    createAndSaveAGreeting();
+    createAndSaveAGreeting();
+
+    Greeting g = greetingCrudService.getGreeting(1);
+    assertNotNull(g);
+    assertEquals(1, g.getId());
+    assertEquals("Hello, user-1!", g.getContent());
+
+    List<Greeting> allGreetings =  greetingCrudService.getAllGreetings();
+    assertEquals(3, allGreetings.size());
+  }
+
+  private void createAndSaveAGreeting() throws JMSException {
+    long id = countService.incrementAndGet();
+    Greeting greeting = new Greeting(id, String.format(template, "user-" + id));
+    greetingCrudService.store(greeting);
+    postingService.sendGreeting(greeting);
+  }
+
+}  
+```
     
 -  **Providing a lightweight JEE 7 runtime container based on SpringBoot**  
     Of course a Spring container is not only useful in a testing environment but can also be used as a full-fledged deployment and runtime environment for production.
 
     All you need is a main class that is annotated as <code>@SpringBootApplication</code> that starts up the Spring container by calling <code>SpringApplication.run</code>:
 ```java
-        @SpringBootApplication
-        public class HelloWorldRestApplication extends ResourceConfig {
-        
-            public HelloWorldRestApplication() {
-              register(RequestContextFilter.class);
-              register(HelloWorldResource.class);
-            }
-        
-          public static void main(String[] args) {
-            Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class};
-            SpringApplication.run(contextClasses, args);
-          }
-        }
+@SpringBootApplication
+public class HelloWorldRestApplication extends ResourceConfig {
+
+    public HelloWorldRestApplication() {
+      register(RequestContextFilter.class);
+      register(HelloWorldResource.class);
+    }
+
+  public static void main(String[] args) {
+    Object[] contextClasses = {HelloWorldRestApplication.class, EmulateJeeContainerConfiguration.class};
+    SpringApplication.run(contextClasses, args);
+  }
+}
 ```    
     By calling <code>mvn install</code> this main class and all its dependencies are assembled to an executable jar. Thus no application deployment is needed.   
     
@@ -105,38 +105,38 @@ Emulating a JEE 7 container with SpringBoot.
 -  **Developing Spring application with minimal code dependencies on Spring**  
     If you don't intend to deploy your application to a JEE container it still makes sense to minimize explicit Spring dependencies in your code. As an example have a look at the following service class which exclusively uses JEE standard APIs can be completely managed by Spring:
 ```java
-        package org.fmek.example.services;
+package org.fmek.example.services;
 
-        import org.fmek.example.domain.Greeting;
-        import org.fmek.example.interceptors.Log;
-        import javax.inject.Inject;
-        import javax.inject.Named;
-        import javax.persistence.EntityManager;
-        import javax.persistence.TypedQuery;
-        import javax.transaction.Transactional;
-        import java.util.List;
-        
-        @Named
-        @Transactional
-        @Log
-        public class GreetingCrudService {
-        
-          @Inject
-          private EntityManager entityManager;
-        
-          public void store(Greeting g) {
-            entityManager.merge(g);
-          }
-        
-          public List<Greeting> getAllGreetings() {
-            TypedQuery<Greeting> q = entityManager.createQuery("SELECT g FROM Greeting g", Greeting.class);
-            return q.getResultList();
-          }
-        
-          public Greeting getGreeting(long id) {
-            return entityManager.find(Greeting.class, id);
-          }
-        }
+import org.fmek.example.domain.Greeting;
+import org.fmek.example.interceptors.Log;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Named
+@Transactional
+@Log
+public class GreetingCrudService {
+
+  @Inject
+  private EntityManager entityManager;
+
+  public void store(Greeting g) {
+    entityManager.merge(g);
+  }
+
+  public List<Greeting> getAllGreetings() {
+    TypedQuery<Greeting> q = entityManager.createQuery("SELECT g FROM Greeting g", Greeting.class);
+    return q.getResultList();
+  }
+
+  public Greeting getGreeting(long id) {
+    return entityManager.find(Greeting.class, id);
+  }
+}
 ```
 
 ## Docs:
