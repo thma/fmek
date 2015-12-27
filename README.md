@@ -17,7 +17,7 @@ Emulating a JEE 7 container with SpringBoot.
 - JAX-RS
 - Servlets
 
-## Not supported:
+## Not supported (and not planning to do so...):
 
 - EJB Session Beans
 
