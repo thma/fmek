@@ -6,9 +6,10 @@ Emulating a JEE 7 container with SpringBoot.
 > "The Fmeks are a diminutive sapient species native to the planet Fmoo, they are the sworn enemies of the Arquillians."  
 -- [aliens.wikia]
 
--  **unit testing of JEE components** 
--  **Providing a lightweight JEE 7 runtime container based on SpringBoot**  
--  **Developing Spring application with minimal code dependencies on Spring**  
+**why?**
+-  unit testing of JEE components 
+-  Providing a lightweight JEE 7 runtime container based on SpringBoot  
+-  Developing Spring application with minimal code dependencies on Spring 
 
 ## Supported Features:
 
